@@ -1,0 +1,397 @@
+@import "../styles/variables";
+
+.tokenomics-section {
+  position: relative;
+  padding: spacing("32") 0;
+  background: color("white");
+  border-top: map-get($borders, "chunky") solid color("black");
+  border-bottom: map-get($borders, "chunky") solid color("black");
+
+  // Brutalist: Add geometric accent
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 20px;
+    background: repeating-linear-gradient(
+      90deg,
+      color("neon-pink") 0px,
+      color("neon-pink") 20px,
+      transparent 20px,
+      transparent 40px
+    );
+  }
+}
+
+// Section Header
+.section-header {
+  text-align: center;
+  margin-bottom: spacing("20");
+  position: relative;
+
+  // Brutalist: Slightly misaligned
+  transform: translateX(-15px) rotate(-0.5deg);
+}
+
+.section-title {
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: map-get($font-weights, "black");
+  color: color("black");
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  margin: 0;
+  text-shadow: map-get($borders, "thick") map-get($borders, "thick") 0
+      color("neon-cyan"),
+    map-get($borders, "chunky") map-get($borders, "chunky") 0
+      color("neon-yellow");
+
+  // Brutalist: Add some randomness
+  &::after {
+    content: "!";
+    color: color("neon-pink");
+    margin-left: spacing("2");
+    animation: title-jitter 2s ease-in-out infinite;
+  }
+}
+
+.title-accent {
+  width: 200px;
+  height: map-get($borders, "chunky");
+  background: color("neon-pink");
+  margin: spacing("4") auto 0;
+  border: map-get($borders, "thick") solid color("black");
+  box-shadow: shadow("lg");
+  transform: rotate(1deg);
+}
+
+// Tokenomics Content
+.tokenomics-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+// Token Info Grid
+.tokenomics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: spacing("8");
+  margin-bottom: spacing("24");
+
+  @media (min-width: map-get($breakpoints, "lg")) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+// Info Boxes
+.info-box {
+  background: color("white");
+  border: map-get($borders, "chunky") solid color("black");
+  padding: spacing("8");
+  box-shadow: shadow("xl");
+  position: relative;
+  overflow: hidden;
+
+  // Brutalist: Each box slightly different
+  &:nth-child(1) {
+    transform: rotate(-0.5deg);
+    background: color("pastel-pink");
+  }
+
+  &:nth-child(2) {
+    transform: rotate(0.5deg);
+    background: color("pastel-cyan");
+  }
+
+  &:nth-child(3) {
+    transform: rotate(-0.3deg);
+    background: color("pastel-yellow");
+  }
+
+  // Hover effects
+  &:hover {
+    transform: translate(-4px, -4px) rotate(0deg);
+    box-shadow: shadow("2xl");
+
+    .brutalist-icon {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    .box-value {
+      color: color("neon-pink");
+      transform: scale(1.05);
+    }
+  }
+
+  // Brutalist: Add geometric accent
+  &::before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 40px;
+    height: 40px;
+    background: color("neon-yellow");
+    border: map-get($borders, "normal") solid color("black");
+    transform: rotate(45deg);
+    z-index: 1;
+  }
+}
+
+.box-header {
+  display: flex;
+  align-items: center;
+  gap: spacing("4");
+  margin-bottom: spacing("6");
+  position: relative;
+  z-index: 2;
+}
+
+.icon-container {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: color("white");
+  border: map-get($borders, "thick") solid color("black");
+  box-shadow: shadow("base");
+}
+
+.brutalist-icon {
+  width: 30px;
+  height: 30px;
+  transition: all transition("normal");
+}
+
+.box-title {
+  font-size: font-size("2xl");
+  font-weight: map-get($font-weights, "bold");
+  color: color("black");
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.box-value {
+  font-size: font-size("4xl");
+  font-weight: map-get($font-weights, "black");
+  color: color("black");
+  margin-bottom: spacing("4");
+  font-family: map-get($fonts, "heading");
+  transition: all transition("normal");
+}
+
+.box-description {
+  font-size: font-size("lg");
+  color: color("gray-800");
+  line-height: map-get($line-heights, "relaxed");
+  font-weight: map-get($font-weights, "medium");
+}
+
+// Chart Section
+.chart-section {
+  text-align: center;
+  padding: spacing("12");
+  background: color("pastel-purple");
+  border: map-get($borders, "chunky") solid color("black");
+  box-shadow: shadow("lg");
+  transform: rotate(0.3deg);
+}
+
+.chart-title {
+  font-size: font-size("3xl");
+  font-weight: map-get($font-weights, "bold");
+  color: color("black");
+  margin: 0 0 spacing("8") 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.chart-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: spacing("8");
+
+  @media (min-width: map-get($breakpoints, "md")) {
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    gap: spacing("16");
+  }
+}
+
+// Distribution Chart
+.distribution-chart {
+  width: 200px;
+  height: 200px;
+  filter: drop-shadow(8px 8px 0 rgba(0, 0, 0, 1));
+
+  @media (min-width: map-get($breakpoints, "md")) {
+    width: 250px;
+    height: 250px;
+  }
+}
+
+.chart-segments {
+  transform: translate(100px, 100px);
+
+  @media (min-width: map-get($breakpoints, "md")) {
+    transform: translate(125px, 125px);
+  }
+}
+
+.chart-segment {
+  transition: all transition("normal");
+
+  &:hover {
+    filter: brightness(1.2);
+    transform: scale(1.05);
+  }
+}
+
+// Chart Legend
+.chart-legend {
+  display: flex;
+  flex-direction: column;
+  gap: spacing("3");
+  min-width: 200px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: spacing("3");
+  padding: spacing("2") spacing("3");
+  background: color("white");
+  border: map-get($borders, "normal") solid color("black");
+  box-shadow: shadow("sm");
+  transition: all transition("fast");
+
+  &:hover {
+    transform: translateX(5px);
+    box-shadow: shadow("base");
+    background: color("pastel-cyan");
+  }
+}
+
+.legend-color {
+  width: 20px;
+  height: 20px;
+  border: map-get($borders, "normal") solid color("black");
+  box-shadow: shadow("sm");
+}
+
+.legend-label {
+  font-size: font-size("base");
+  font-weight: map-get($font-weights, "medium");
+  color: color("black");
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+// Animations
+@keyframes title-jitter {
+  0%,
+  100% {
+    transform: translateX(0) rotate(0deg);
+  }
+  50% {
+    transform: translateX(2px) rotate(2deg);
+  }
+}
+
+// Responsive Design
+@media (max-width: map-get($breakpoints, "md")) {
+  .tokenomics-section {
+    padding: spacing("20") 0;
+  }
+
+  .section-header {
+    transform: none;
+    margin-bottom: spacing("16");
+  }
+
+  .section-title {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+  }
+
+  .title-accent {
+    width: 150px;
+    height: map-get($borders, "thick");
+  }
+
+  .tokenomics-grid {
+    grid-template-columns: 1fr;
+    gap: spacing("6");
+  }
+
+  .info-box {
+    transform: none !important;
+    padding: spacing("6");
+
+    &:hover {
+      transform: translate(-2px, -2px) !important;
+    }
+  }
+
+  .chart-section {
+    transform: none;
+    padding: spacing("8");
+  }
+
+  .chart-container {
+    flex-direction: column;
+    gap: spacing("6");
+  }
+
+  .distribution-chart {
+    width: 180px;
+    height: 180px;
+  }
+
+  .chart-segments {
+    transform: translate(90px, 90px);
+  }
+}
+
+// High contrast mode support
+@media (prefers-contrast: high) {
+  .tokenomics-section {
+    background: color("white");
+  }
+
+  .info-box {
+    background: color("white");
+    border-color: color("black");
+  }
+
+  .chart-section {
+    background: color("white");
+  }
+
+  .title-accent {
+    background: color("black");
+  }
+}
+
+// Reduced motion support
+@media (prefers-reduced-motion: reduce) {
+  .section-title::after {
+    animation: none;
+  }
+
+  .info-box:hover {
+    transform: none;
+  }
+
+  .chart-segment:hover {
+    transform: none;
+  }
+
+  .legend-item:hover {
+    transform: none;
+  }
+}

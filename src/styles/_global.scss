@@ -1,0 +1,524 @@
+@import 'variables';
+
+// ============================================================================
+// GLOBAL STYLES & RESET
+// ============================================================================
+
+// CSS Reset & Base
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+body {
+  font-family: map-get($fonts, 'body');
+  font-size: font-size('base');
+  line-height: map-get($line-heights, 'normal');
+  color: color('black');
+  background-color: color('white');
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+// Typography
+h1, h2, h3, h4, h5, h6 {
+  font-family: map-get($fonts, 'heading');
+  font-weight: map-get($font-weights, 'bold');
+  line-height: map-get($line-heights, 'tight');
+  margin: 0;
+  color: color('black');
+}
+
+h1 { font-size: font-size('6xl'); }
+h2 { font-size: font-size('5xl'); }
+h3 { font-size: font-size('4xl'); }
+h4 { font-size: font-size('3xl'); }
+h5 { font-size: font-size('2xl'); }
+h6 { font-size: font-size('xl'); }
+
+p {
+  margin: 0 0 spacing('4') 0;
+  line-height: map-get($line-heights, 'relaxed');
+}
+
+a {
+  color: color('neon-pink');
+  text-decoration: none;
+  transition: transition('fast');
+  
+  &:hover {
+    color: color('neon-cyan');
+    text-decoration: underline;
+  }
+}
+
+strong, b {
+  font-weight: map-get($font-weights, 'bold');
+}
+
+em, i {
+  font-style: italic;
+}
+
+// Lists
+ul, ol {
+  margin: 0 0 spacing('4') 0;
+  padding-left: spacing('6');
+}
+
+li {
+  margin-bottom: spacing('2');
+}
+
+// Images
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+// Buttons (Neo-Brutalism style)
+button,
+.btn {
+  display: inline-block;
+  font-family: map-get($fonts, 'heading');
+  font-weight: map-get($font-weights, 'bold');
+  font-size: font-size('lg');
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  
+  padding: $button-padding-y $button-padding-x;
+  border: $button-border-width solid color('black');
+  border-radius: map-get($border-radius, 'none');
+  background-color: color('white');
+  color: color('black');
+  
+  cursor: pointer;
+  transition: all transition('normal');
+  box-shadow: $button-shadow;
+  
+  &:hover {
+    transform: $button-hover-transform;
+    box-shadow: $button-hover-shadow;
+    background-color: color('neon-yellow');
+  }
+  
+  &:active {
+    transform: translate(0, 0);
+    box-shadow: $button-shadow;
+  }
+  
+  &:focus {
+    outline: $button-border-width solid color('neon-cyan');
+    outline-offset: spacing('2');
+  }
+  
+  // Button variants
+  &.btn-primary {
+    background-color: color('neon-pink');
+    color: color('white');
+    border-color: color('black');
+    
+    &:hover {
+      background-color: color('neon-cyan');
+      color: color('black');
+    }
+  }
+  
+  &.btn-secondary {
+    background-color: color('neon-cyan');
+    color: color('black');
+    border-color: color('black');
+    
+    &:hover {
+      background-color: color('neon-yellow');
+      color: color('black');
+    }
+  }
+  
+  &.btn-outline {
+    background-color: transparent;
+    color: color('black');
+    border-color: color('black');
+    
+    &:hover {
+      background-color: color('black');
+      color: color('white');
+    }
+  }
+  
+  // Button sizes
+  &.btn-sm {
+    padding: spacing('2') spacing('4');
+    font-size: font-size('sm');
+  }
+  
+  &.btn-lg {
+    padding: spacing('6') spacing('8');
+    font-size: font-size('xl');
+  }
+  
+  &.btn-chunky {
+    padding: spacing('8') spacing('12');
+    font-size: font-size('2xl');
+    border-width: map-get($borders, 'chunky');
+  }
+}
+
+// Form elements
+input, textarea, select {
+  font-family: map-get($fonts, 'body');
+  font-size: font-size('base');
+  padding: spacing('3') spacing('4');
+  border: map-get($borders, 'normal') solid color('black');
+  border-radius: map-get($border-radius, 'none');
+  background-color: color('white');
+  color: color('black');
+  
+  &:focus {
+    outline: none;
+    border-color: color('neon-cyan');
+    box-shadow: 0 0 0 spacing('1') color('neon-cyan');
+  }
+  
+  &::placeholder {
+    color: color('gray-800');
+  }
+}
+
+// Layout utilities
+.container {
+  width: 100%;
+  max-width: map-get($container-max-widths, '2xl');
+  margin: 0 auto;
+  padding: 0 spacing('4');
+  
+  @media (min-width: map-get($breakpoints, 'sm')) {
+    padding: 0 spacing('6');
+  }
+  
+  @media (min-width: map-get($breakpoints, 'lg')) {
+    padding: 0 spacing('8');
+  }
+}
+
+.grid {
+  display: grid;
+  gap: $grid-gutter;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+// Spacing utilities
+@each $key, $value in $spacing {
+  .p-#{$key} { padding: $value; }
+  .pt-#{$key} { padding-top: $value; }
+  .pr-#{$key} { padding-right: $value; }
+  .pb-#{$key} { padding-bottom: $value; }
+  .pl-#{$key} { padding-left: $value; }
+  .px-#{$key} { padding-left: $value; padding-right: $value; }
+  .py-#{$key} { padding-top: $value; padding-bottom: $value; }
+  
+  .m-#{$key} { margin: $value; }
+  .mt-#{$key} { margin-top: $value; }
+  .mr-#{$key} { margin-right: $value; }
+  .mb-#{$key} { margin-bottom: $value; }
+  .ml-#{$key} { margin-left: $value; }
+  .mx-#{$key} { margin-left: $value; margin-right: $value; }
+  .my-#{$key} { margin-top: $value; margin-bottom: $value; }
+}
+
+// Color utilities
+@each $key, $value in $colors {
+  .bg-#{$key} { background-color: $value; }
+  .text-#{$key} { color: $value; }
+  .border-#{$key} { border-color: $value; }
+}
+
+// Shadow utilities
+@each $key, $value in $shadows {
+  .shadow-#{$key} { box-shadow: $value; }
+}
+
+// Border utilities
+@each $key, $value in $borders {
+  .border-#{$key} { border-width: $value; }
+}
+
+// Typography utilities
+@each $key, $value in $font-sizes {
+  .text-#{$key} { font-size: $value; }
+}
+
+@each $key, $value in $font-weights {
+  .font-#{$key} { font-weight: $value; }
+}
+
+// Display utilities
+.hidden { display: none; }
+.block { display: block; }
+.inline-block { display: inline-block; }
+.inline { display: inline; }
+
+// Position utilities
+.relative { position: relative; }
+.absolute { position: absolute; }
+.fixed { position: fixed; }
+.sticky { position: sticky; }
+
+// Z-index utilities
+@each $key, $value in $z-index {
+  .z-#{$key} { z-index: $value; }
+}
+
+// ============================================================================
+// ANIMATIONS & KEYFRAMES
+// ============================================================================
+
+@keyframes bounce {
+  0%, 20%, 53%, 80%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  40%, 43% {
+    transform: translate3d(0, -30px, 0);
+  }
+  70% {
+    transform: translate3d(0, -15px, 0);
+  }
+  90% {
+    transform: translate3d(0, -4px, 0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-10px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(10px);
+  }
+}
+
+@keyframes glow {
+  from {
+    box-shadow: 0 0 20px rgba(255, 0, 160, 0.6);
+  }
+  to {
+    box-shadow: 0 0 30px rgba(255, 0, 160, 0.8), 0 0 40px rgba(255, 0, 160, 0.4);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes jitter {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(-2px, 2px);
+  }
+  50% {
+    transform: translate(2px, -2px);
+  }
+  75% {
+    transform: translate(-2px, -2px);
+  }
+}
+
+// Animation utility classes
+@each $key, $value in $keyframes {
+  .animate-#{$key} {
+    animation: $value;
+  }
+}
+
+// ============================================================================
+// RESPONSIVE UTILITIES
+// ============================================================================
+
+// Small breakpoint
+@media (min-width: map-get($breakpoints, 'sm')) {
+  .sm\:p-4 { padding: spacing('4'); }
+  .sm\:p-6 { padding: spacing('6'); }
+  .sm\:p-8 { padding: spacing('8'); }
+  .sm\:m-4 { margin: spacing('4'); }
+  .sm\:m-6 { margin: spacing('6'); }
+  .sm\:m-8 { margin: spacing('8'); }
+  .sm\:text-lg { font-size: font-size('lg'); }
+  .sm\:text-xl { font-size: font-size('xl'); }
+  .sm\:hidden { display: none; }
+  .sm\:block { display: block; }
+  .sm\:flex { display: flex; }
+  .sm\:grid { display: grid; }
+}
+
+// Medium breakpoint
+@media (min-width: map-get($breakpoints, 'md')) {
+  .md\:p-4 { padding: spacing('4'); }
+  .md\:p-6 { padding: spacing('6'); }
+  .md\:p-8 { padding: spacing('8'); }
+  .md\:p-12 { padding: spacing('12'); }
+  .md\:m-4 { margin: spacing('4'); }
+  .md\:m-6 { margin: spacing('6'); }
+  .md\:m-8 { margin: spacing('8'); }
+  .md\:m-12 { margin: spacing('12'); }
+  .md\:text-lg { font-size: font-size('lg'); }
+  .md\:text-xl { font-size: font-size('xl'); }
+  .md\:text-2xl { font-size: font-size('2xl'); }
+  .md\:hidden { display: none; }
+  .md\:block { display: block; }
+  .md\:flex { display: flex; }
+  .md\:grid { display: grid; }
+}
+
+// Large breakpoint
+@media (min-width: map-get($breakpoints, 'lg')) {
+  .lg\:p-4 { padding: spacing('4'); }
+  .lg\:p-6 { padding: spacing('6'); }
+  .lg\:p-8 { padding: spacing('8'); }
+  .lg\:p-12 { padding: spacing('12'); }
+  .lg\:p-16 { padding: spacing('16'); }
+  .lg\:m-4 { margin: spacing('4'); }
+  .lg\:m-6 { margin: spacing('6'); }
+  .lg\:m-8 { margin: spacing('8'); }
+  .lg\:m-12 { margin: spacing('12'); }
+  .lg\:m-16 { margin: spacing('16'); }
+  .lg\:text-lg { font-size: font-size('lg'); }
+  .lg\:text-xl { font-size: font-size('xl'); }
+  .lg\:text-2xl { font-size: font-size('2xl'); }
+  .lg\:text-3xl { font-size: font-size('3xl'); }
+  .lg\:hidden { display: none; }
+  .lg\:block { display: block; }
+  .lg\:flex { display: flex; }
+  .lg\:grid { display: grid; }
+}
+
+// Extra large breakpoint
+@media (min-width: map-get($breakpoints, 'xl')) {
+  .xl\:p-4 { padding: spacing('4'); }
+  .xl\:p-6 { padding: spacing('6'); }
+  .xl\:p-8 { padding: spacing('8'); }
+  .xl\:p-12 { padding: spacing('12'); }
+  .xl\:p-16 { padding: spacing('16'); }
+  .xl\:p-20 { padding: spacing('20'); }
+  .xl\:m-4 { margin: spacing('4'); }
+  .xl\:m-6 { margin: spacing('6'); }
+  .xl\:m-8 { margin: spacing('8'); }
+  .xl\:m-12 { margin: spacing('12'); }
+  .xl\:m-16 { margin: spacing('16'); }
+  .xl\:m-20 { margin: spacing('20'); }
+  .xl\:text-lg { font-size: font-size('lg'); }
+  .xl\:text-xl { font-size: font-size('xl'); }
+  .xl\:text-2xl { font-size: font-size('2xl'); }
+  .xl\:text-3xl { font-size: font-size('3xl'); }
+  .xl\:text-4xl { font-size: font-size('4xl'); }
+  .xl\:hidden { display: none; }
+  .xl\:block { display: block; }
+  .xl\:flex { display: flex; }
+  .xl\:grid { display: grid; }
+}
+
+// ============================================================================
+// ACCESSIBILITY & FOCUS MANAGEMENT
+// ============================================================================
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.focus-visible {
+  outline: map-get($borders, 'thick') solid color('neon-cyan');
+  outline-offset: spacing('2');
+}
+
+// ============================================================================
+// PRINT STYLES
+// ============================================================================
+
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  
+  a, a:visited {
+    text-decoration: underline;
+  }
+  
+  button, .btn {
+    border: 1px solid black !important;
+    box-shadow: none !important;
+  }
+} 

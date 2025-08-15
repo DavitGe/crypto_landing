@@ -1,0 +1,621 @@
+@import "../styles/variables";
+
+.roadmap-section {
+  position: relative;
+  min-height: 100vh;
+  padding: spacing("24") 0;
+  background: linear-gradient(
+    135deg,
+    color("pastel-purple") 0%,
+    color("pastel-cyan") 25%,
+    color("pastel-yellow") 50%,
+    color("pastel-pink") 75%,
+    color("pastel-orange") 100%
+  );
+  overflow: hidden;
+
+  // Brutalist: Add noise texture
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: radial-gradient(
+        circle at 25% 25%,
+        rgba(0, 0, 0, 0.1) 2px,
+        transparent 2px
+      ),
+      radial-gradient(
+        circle at 75% 75%,
+        rgba(0, 0, 0, 0.1) 2px,
+        transparent 2px
+      );
+    background-size: 50px 50px;
+    opacity: 0.3;
+    z-index: 1;
+  }
+}
+
+// Brutalist Background Patterns
+.roadmap-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.pattern-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 0.4;
+  animation: grid-move 20s linear infinite;
+}
+
+.pattern-dots {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: radial-gradient(
+      circle at 20% 80%,
+      color("neon-pink") 4px,
+      transparent 4px
+    ),
+    radial-gradient(circle at 80% 20%, color("neon-cyan") 4px, transparent 4px),
+    radial-gradient(
+      circle at 40% 40%,
+      color("neon-yellow") 3px,
+      transparent 3px
+    );
+  background-size: 120px 120px, 180px 180px, 100px 100px;
+  animation: dots-float 25s ease-in-out infinite;
+}
+
+.pattern-lines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 30px,
+    rgba(255, 0, 160, 0.1) 30px,
+    rgba(255, 0, 160, 0.1) 60px
+  );
+  animation: lines-slide 30s linear infinite;
+}
+
+.roadmap-container {
+  position: relative;
+  z-index: 10;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 spacing("4");
+}
+
+// Massive Title Section
+.roadmap-header {
+  text-align: center;
+  margin-bottom: spacing("20");
+  transform: rotate(-1deg);
+
+  .roadmap-title {
+    font-size: clamp(4rem, 12vw, 12rem);
+    font-weight: map-get($font-weights, "black");
+    line-height: 0.8;
+    color: color("black");
+    text-transform: uppercase;
+    letter-spacing: -0.05em;
+    margin: 0;
+    text-shadow: map-get($borders, "chunky") map-get($borders, "chunky") 0
+        color("white"),
+      map-get($borders, "massive") map-get($borders, "massive") 0 color("black");
+    transform: translateX(-15px);
+
+    // Brutalist: Add some randomness
+    &::before {
+      content: "";
+      position: absolute;
+      top: -20px;
+      left: -20px;
+      right: -20px;
+      bottom: -20px;
+      background: color("neon-pink");
+      border: map-get($borders, "thick") solid color("black");
+      z-index: -1;
+      transform: rotate(2deg);
+    }
+  }
+
+  .title-underline {
+    width: 80%;
+    height: map-get($borders, "chunky");
+    background: color("neon-cyan");
+    margin: spacing("4") auto 0;
+    border: map-get($borders, "thick") solid color("black");
+    transform: rotate(-0.5deg) translateX(10px);
+    box-shadow: shadow("lg");
+  }
+}
+
+// Timeline Container
+.roadmap-timeline {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: spacing("12");
+
+  // Brutalist: Slightly misaligned
+  transform: translateX(-20px);
+}
+
+// Individual Phase
+.roadmap-phase {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: spacing("6");
+  padding: spacing("8");
+  background: color("white");
+  border: map-get($borders, "chunky") solid color("black");
+  box-shadow: shadow("xl");
+  transform: rotate(-0.5deg);
+
+  // Brutalist: Different sizes for each phase
+  &:nth-child(odd) {
+    transform: rotate(0.5deg) scale(1.02);
+    margin-left: spacing("8");
+  }
+
+  &:nth-child(even) {
+    transform: rotate(-0.8deg) scale(0.98);
+    margin-right: spacing("8");
+  }
+
+  &:nth-child(3n) {
+    transform: rotate(0.3deg) scale(1.05);
+    margin-left: spacing("4");
+  }
+
+  // Hover effects
+  &:hover {
+    transform: scale(1.03) rotate(0deg);
+    box-shadow: shadow("2xl");
+
+    .phase-number .number-background {
+      transform: scale(1.1) rotate(5deg);
+    }
+  }
+
+  // Status-based styling
+  &.completed {
+    border-left: map-get($borders, "massive") solid #00ff88;
+
+    .phase-number .number-background {
+      background: #00ff88;
+    }
+  }
+
+  &.in-progress {
+    border-left: map-get($borders, "massive") solid #ffe600;
+
+    .phase-number .number-background {
+      background: #ffe600;
+    }
+  }
+
+  &.upcoming {
+    border-left: map-get($borders, "massive") solid #ff6b35;
+
+    .phase-number .number-background {
+      background: #ff6b35;
+    }
+  }
+}
+
+// Phase Number
+.phase-number {
+  position: relative;
+  flex-shrink: 0;
+
+  .number {
+    position: relative;
+    z-index: 2;
+    font-size: font-size("6xl");
+    font-weight: map-get($font-weights, "black");
+    color: color("white");
+    text-shadow: 3px 3px 0 color("black");
+    display: block;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .number-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: color("neon-pink");
+    border: map-get($borders, "thick") solid color("black");
+    transform: rotate(-5deg);
+    transition: transform 0.3s ease;
+  }
+}
+
+// Phase Content
+.phase-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.phase-header {
+  display: flex;
+  align-items: center;
+  gap: spacing("4");
+  margin-bottom: spacing("4");
+  flex-wrap: wrap;
+
+  .phase-icon {
+    font-size: font-size("4xl");
+    filter: drop-shadow(3px 3px 0 color("black"));
+    animation: icon-bounce 2s ease-in-out infinite;
+  }
+
+  .phase-title {
+    font-size: font-size("3xl");
+    font-weight: map-get($font-weights, "black");
+    color: color("black");
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0;
+    text-shadow: 2px 2px 0 color("neon-cyan");
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .status-badge {
+    padding: spacing("2") spacing("4");
+    font-size: font-size("sm");
+    font-weight: map-get($font-weights, "bold");
+    color: color("black");
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border: map-get($borders, "thick") solid color("black");
+    box-shadow: shadow("base");
+    transform: rotate(1deg);
+
+    // Brutalist: Different rotation for each status
+    &.completed {
+      transform: rotate(-2deg);
+    }
+    &.in-progress {
+      transform: rotate(1deg);
+    }
+    &.upcoming {
+      transform: rotate(0deg);
+    }
+  }
+}
+
+.phase-description {
+  font-size: font-size("lg");
+  font-weight: map-get($font-weights, "medium");
+  line-height: map-get($line-heights, "relaxed");
+  color: color("gray-800");
+  margin: 0 0 spacing("4") 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+// Brutalist Decorative Elements
+.phase-decoration {
+  display: flex;
+  align-items: center;
+  gap: spacing("3");
+
+  .decoration-line {
+    flex: 1;
+    height: map-get($borders, "thick");
+    background: color("neon-yellow");
+    border: 2px solid color("black");
+    transform: rotate(-1deg);
+  }
+
+  .decoration-dots {
+    display: flex;
+    gap: spacing("1");
+
+    span {
+      width: 8px;
+      height: 8px;
+      background: color("neon-pink");
+      border: 2px solid color("black");
+      transform: rotate(45deg);
+
+      &:nth-child(1) {
+        animation: dot-pulse 1s ease-in-out infinite;
+      }
+      &:nth-child(2) {
+        animation: dot-pulse 1s ease-in-out infinite 0.2s;
+      }
+      &:nth-child(3) {
+        animation: dot-pulse 1s ease-in-out infinite 0.4s;
+      }
+    }
+  }
+}
+
+// Phase Connector
+.phase-connector {
+  position: absolute;
+  left: 40px;
+  top: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+
+  .connector-line {
+    width: map-get($borders, "thick");
+    height: spacing("12");
+    background: color("black");
+    box-shadow: shadow("base");
+  }
+
+  .connector-arrow {
+    font-size: font-size("xl");
+    color: color("neon-cyan");
+    text-shadow: 2px 2px 0 color("black");
+    animation: arrow-bounce 1s ease-in-out infinite;
+  }
+}
+
+// Bottom CTA
+.roadmap-cta {
+  text-align: center;
+  margin-top: spacing("16");
+  padding: spacing("8");
+  background: color("white");
+  border: map-get($borders, "chunky") solid color("black");
+  box-shadow: shadow("xl");
+  transform: rotate(0.5deg);
+
+  .cta-text {
+    font-size: font-size("2xl");
+    font-weight: map-get($font-weights, "bold");
+    color: color("black");
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0 0 spacing("6") 0;
+    text-shadow: 2px 2px 0 color("neon-yellow");
+  }
+
+  .cta-button {
+    background: color("neon-pink");
+    color: color("white");
+    border: map-get($borders, "thick") solid color("black");
+    padding: spacing("4") spacing("8");
+    font-size: font-size("xl");
+    font-weight: map-get($font-weights, "bold");
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    box-shadow: shadow("lg");
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: color("neon-cyan");
+      color: color("black");
+      transform: translate(-4px, -4px);
+      box-shadow: shadow("2xl");
+    }
+
+    &:active {
+      transform: translate(-2px, -2px);
+      box-shadow: shadow("lg");
+    }
+  }
+}
+
+// Keyframe Animations
+@keyframes grid-move {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(40px, 40px);
+  }
+}
+
+@keyframes dots-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-30px) rotate(180deg);
+  }
+}
+
+@keyframes lines-slide {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(60px);
+  }
+}
+
+@keyframes icon-bounce {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-5px) scale(1.1);
+  }
+}
+
+@keyframes dot-pulse {
+  0%,
+  100% {
+    transform: rotate(45deg) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: rotate(45deg) scale(1.5);
+    opacity: 0.7;
+  }
+}
+
+@keyframes arrow-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+// Responsive Design
+@media (max-width: map-get($breakpoints, "lg")) {
+  .roadmap-phase {
+    flex-direction: column;
+    gap: spacing("4");
+
+    .phase-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: spacing("3");
+
+      .phase-title {
+        min-width: auto;
+        font-size: font-size("2xl");
+      }
+    }
+  }
+
+  .phase-connector {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: map-get($breakpoints, "md")) {
+  .roadmap-section {
+    padding: spacing("16") 0;
+  }
+
+  .roadmap-header {
+    transform: rotate(0deg);
+
+    .roadmap-title {
+      font-size: clamp(3rem, 8vw, 6rem);
+      transform: none;
+
+      &::before {
+        display: none;
+      }
+    }
+
+    .title-underline {
+      transform: none;
+    }
+  }
+
+  .roadmap-timeline {
+    transform: none;
+    gap: spacing("8");
+  }
+
+  .roadmap-phase {
+    transform: none !important;
+    margin: 0 !important;
+    padding: spacing("6");
+
+    &:nth-child(odd),
+    &:nth-child(even),
+    &:nth-child(3n) {
+      transform: none !important;
+      margin: 0 !important;
+    }
+  }
+
+  .phase-number .number {
+    width: 60px;
+    height: 60px;
+    font-size: font-size("4xl");
+  }
+
+  .roadmap-cta {
+    transform: none;
+    padding: spacing("6");
+
+    .cta-text {
+      font-size: font-size("xl");
+    }
+
+    .cta-button {
+      padding: spacing("3") spacing("6");
+      font-size: font-size("lg");
+    }
+  }
+}
+
+@media (max-width: map-get($breakpoints, "sm")) {
+  .roadmap-container {
+    padding: 0 spacing("3");
+  }
+
+  .roadmap-phase {
+    padding: spacing("4");
+
+    .phase-header .phase-title {
+      font-size: font-size("xl");
+    }
+
+    .phase-description {
+      font-size: font-size("base");
+    }
+  }
+
+  .phase-number .number {
+    width: 50px;
+    height: 50px;
+    font-size: font-size("3xl");
+  }
+}
+
+// High contrast mode support
+@media (prefers-contrast: high) {
+  .roadmap-section {
+    background: color("white");
+  }
+
+  .roadmap-phase {
+    border-width: map-get($borders, "massive");
+  }
+
+  .roadmap-title {
+    text-shadow: 4px 4px 0 color("black");
+  }
+}

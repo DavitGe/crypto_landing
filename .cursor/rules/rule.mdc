@@ -1,0 +1,36 @@
+---
+alwaysApply: false
+---
+
+# Cursor Project Rules — Non-Standard Meme Coin Landing (React, Neo-Brutalism)
+
+## Code Style
+
+- Always use TypeScript with React functional components and hooks.
+- Use SCSS modules for styling, organized by component.
+- Keep files clean and modular — no inline styles unless for micro-experiments.
+- Use semantic HTML tags and accessible aria attributes.
+
+## Design Language: Neo-Brutalism
+
+- Color palette: Bright pastels + neon (#FF00A0, #00FFD1, #FFE600, black, white).
+- Typography: Bold, geometric sans-serif (Space Grotesk / Clash Display) for headings, Inter for body.
+- Layout: Asymmetrical grid + Flexbox, avoid pixel-perfect symmetry.
+- Borders: Thick (3px+), black or high contrast.
+- Shadows: Harsh, offset, 4px to 12px, solid black.
+- Buttons: Chunky, blocky, with bold hover/focus states.
+- Imagery: Flat geometric shapes, playful raw elements, hand-drawn accents.
+- Animations: Pop-in, slight jitter, sudden transitions; use framer-motion for smoothness.
+
+## Animation
+
+- Keep animations performant, GPU-accelerated.
+- Prefer framer-motion for scroll + hover effects.
+- For mascot: Use react-three-fiber + drei for 3D scene; keep low-poly.
+
+## General Rules
+
+- Lazy load heavy assets.
+- Use SVGs for icons.
+- All pages responsive, but preserve brutalist layout feel on mobile.
+- SEO-ready: meta tags, OG tags, Twitter cards.
