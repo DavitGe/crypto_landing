@@ -24,6 +24,60 @@ export const prefetchResource = (href: string): void => {
   document.head.appendChild(link);
 };
 
+// Font loading optimization to prevent layout shifts
+export const optimizeFontLoading = (): void => {
+  // Preload critical fonts
+  const criticalFonts = [
+    {
+      href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap",
+      as: "style",
+    },
+    {
+      href: "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800;900&display=swap",
+      as: "style",
+    },
+  ];
+
+  criticalFonts.forEach((font) => {
+    preloadResource(font.href, font.as);
+  });
+
+  // Add font-display: swap to prevent layout shifts
+  const style = document.createElement("style");
+  style.textContent = `
+    @font-face {
+      font-family: 'Inter';
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Space Grotesk';
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'JetBrains Mono';
+      font-display: swap;
+    }
+  `;
+  document.head.appendChild(style);
+};
+
+// Reserve space for elements to prevent layout shifts
+export const reserveSpaceForElement = (
+  selector: string,
+  dimensions: { width?: number; height?: number }
+): void => {
+  const elements = document.querySelectorAll(selector);
+  elements.forEach((element) => {
+    const el = element as HTMLElement;
+    if (dimensions.width) {
+      el.style.minWidth = `${dimensions.width}px`;
+    }
+    if (dimensions.height) {
+      el.style.minHeight = `${dimensions.height}px`;
+    }
+  });
+};
+
 // Intersection Observer for lazy loading
 export const createIntersectionObserver = (
   callback: IntersectionObserverCallback,
@@ -158,4 +212,28 @@ export const addResourceHints = (): void => {
     Object.assign(link, hint);
     document.head.appendChild(link);
   });
+
+  // Optimize font loading
+  optimizeFontLoading();
+};
+
+// Layout shift prevention utilities
+export const preventLayoutShifts = (): void => {
+  // Reserve space for critical elements
+  reserveSpaceForElement(".hero-mascot", { height: 200 });
+  reserveSpaceForElement(".hero-heading", { height: 200 });
+  reserveSpaceForElement(".hero-actions", { height: 120 });
+
+  // Add responsive space reservation
+  const mediaQuery = window.matchMedia("(min-width: 768px)");
+  const updateSpaceReservation = () => {
+    if (mediaQuery.matches) {
+      reserveSpaceForElement(".hero-mascot", { height: 300 });
+    } else {
+      reserveSpaceForElement(".hero-mascot", { height: 150 });
+    }
+  };
+
+  mediaQuery.addListener(updateSpaceReservation);
+  updateSpaceReservation();
 };

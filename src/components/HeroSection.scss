@@ -118,6 +118,11 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: spacing("20") spacing("4");
+  /* Reserve space to prevent layout shifts */
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
   // Brutalist: Slightly misaligned layout
   transform: rotate(-0.5deg);
@@ -126,6 +131,11 @@
 // Hero Heading - Huge and Bold
 .hero-heading {
   margin-bottom: spacing("8");
+  /* Reserve space for text to prevent layout shifts */
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   // Brutalist: Add some randomness to positioning
   transform: translateX(-10px);
@@ -139,6 +149,8 @@
   text-transform: uppercase;
   letter-spacing: -0.02em;
   margin: 0;
+  /* Prevent text from causing layout shifts */
+  font-display: swap;
 
   // Brutalist: Each line slightly different
   .coin-name {
@@ -176,6 +188,11 @@
 .hero-subheading {
   margin-bottom: spacing("12");
   transform: translateX(5px) rotate(0.3deg);
+  /* Reserve space for subheading */
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .subtitle {
@@ -184,6 +201,8 @@
   line-height: map-get($line-heights, "relaxed");
   color: color("gray-800");
   margin: 0;
+  /* Prevent text from causing layout shifts */
+  font-display: swap;
 
   .highlight {
     color: color("neon-yellow");
@@ -205,6 +224,9 @@
   gap: spacing("6");
   margin-bottom: spacing("16");
   transform: translateX(-8px) rotate(-0.2deg);
+  /* Reserve space for buttons */
+  min-height: 120px;
+  justify-content: center;
 
   @media (min-width: map-get($breakpoints, "md")) {
     flex-direction: row;
@@ -219,6 +241,11 @@
   font-size: font-size("xl");
   text-transform: uppercase;
   letter-spacing: 0.1em;
+  /* Prevent button size changes from causing layout shifts */
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   // Brutalist: Slightly different sizes
   &:nth-child(1) {
@@ -277,6 +304,11 @@
   position: relative;
   margin: spacing("16") 0;
   transform: translateX(20px) rotate(1deg);
+  /* Reserve space for mascot to prevent layout shifts */
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .mascot-container {
@@ -294,6 +326,8 @@
   width: 100%;
   height: 100%;
   filter: drop-shadow(8px 8px 0 rgba(0, 0, 0, 1));
+  /* Prevent SVG from causing layout shifts */
+  display: block;
 }
 
 // Mascot Animations
@@ -577,12 +611,25 @@
   .hero-content {
     transform: rotate(0deg);
     padding: spacing("16") spacing("4");
+    min-height: 70vh;
   }
 
   .hero-heading,
   .hero-subheading,
   .hero-actions {
     transform: none;
+  }
+
+  .hero-heading {
+    min-height: 150px;
+  }
+
+  .hero-subheading {
+    min-height: 60px;
+  }
+
+  .hero-actions {
+    min-height: 100px;
   }
 
   .hero-title {
@@ -596,11 +643,16 @@
   .hero-btn {
     min-width: 180px;
     font-size: font-size("lg");
+    height: 50px;
   }
 
   .mascot-container {
     width: 150px;
     height: 150px;
+  }
+
+  .hero-mascot {
+    min-height: 150px;
   }
 }
 
