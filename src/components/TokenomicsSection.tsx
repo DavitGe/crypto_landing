@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./TokenomicsSection.scss";
 
 interface TokenomicsData {
@@ -32,6 +32,28 @@ const TokenomicsSection: React.FC<TokenomicsSectionProps> = ({
     },
   },
 }) => {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = useState<string | null>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  // Mouse tracking for 3D effects
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (sectionRef.current) {
+        const rect = sectionRef.current.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width;
+        const y = (e.clientY - rect.top) / rect.height;
+        setMousePosition({ x, y });
+      }
+    };
+
+    const section = sectionRef.current;
+    if (section) {
+      section.addEventListener("mousemove", handleMouseMove);
+      return () => section.removeEventListener("mousemove", handleMouseMove);
+    }
+  }, []);
+
   // Calculate chart angles
   const calculateChartPath = (percentage: number, startAngle: number) => {
     const radius = 80;
@@ -57,8 +79,30 @@ const TokenomicsSection: React.FC<TokenomicsSectionProps> = ({
     burn: "#00FF88",
   };
 
+  // Calculate 3D transform based on mouse position (only when not hovered)
+  const get3DTransform = (
+    baseTransform: string,
+    intensity: number = 1,
+    elementId: string
+  ) => {
+    if (isHovered === elementId) {
+      return baseTransform; // Don't apply mouse tracking when hovered
+    }
+    const rotateX = (mousePosition.y - 0.5) * 10 * intensity;
+    const rotateY = (mousePosition.x - 0.5) * 10 * intensity;
+    return `${baseTransform} rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+  };
+
+  const handleMouseEnter = (elementId: string) => {
+    setIsHovered(elementId);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(null);
+  };
+
   return (
-    <section id="tokenomics" className="tokenomics-section">
+    <section ref={sectionRef} id="tokenomics" className="tokenomics-section">
       <div className="container">
         {/* Brutalist Header */}
         <div className="section-header">
@@ -70,7 +114,14 @@ const TokenomicsSection: React.FC<TokenomicsSectionProps> = ({
           {/* Token Info Grid */}
           <div className="tokenomics-grid">
             {/* Total Supply */}
-            <div className="info-box supply-box">
+            <div
+              className="info-box supply-box"
+              style={{
+                transform: get3DTransform("rotate(-0.5deg)", 0.5, "supply"),
+              }}
+              onMouseEnter={() => handleMouseEnter("supply")}
+              onMouseLeave={handleMouseLeave}
+            >
               <div className="box-header">
                 <div className="icon-container">
                   <svg className="brutalist-icon" viewBox="0 0 40 40">
@@ -100,7 +151,14 @@ const TokenomicsSection: React.FC<TokenomicsSectionProps> = ({
             </div>
 
             {/* Liquidity Lock */}
-            <div className="info-box liquidity-box">
+            <div
+              className="info-box liquidity-box"
+              style={{
+                transform: get3DTransform("rotate(0.5deg)", 0.5, "liquidity"),
+              }}
+              onMouseEnter={() => handleMouseEnter("liquidity")}
+              onMouseLeave={handleMouseLeave}
+            >
               <div className="box-header">
                 <div className="icon-container">
                   <svg className="brutalist-icon" viewBox="0 0 40 40">
@@ -128,7 +186,14 @@ const TokenomicsSection: React.FC<TokenomicsSectionProps> = ({
             </div>
 
             {/* Burn Mechanism */}
-            <div className="info-box burn-box">
+            <div
+              className="info-box burn-box"
+              style={{
+                transform: get3DTransform("rotate(-0.3deg)", 0.5, "burn"),
+              }}
+              onMouseEnter={() => handleMouseEnter("burn")}
+              onMouseLeave={handleMouseLeave}
+            >
               <div className="box-header">
                 <div className="icon-container">
                   <svg className="brutalist-icon" viewBox="0 0 40 40">
@@ -149,7 +214,14 @@ const TokenomicsSection: React.FC<TokenomicsSectionProps> = ({
           </div>
 
           {/* Distribution Chart */}
-          <div className="chart-section">
+          <div
+            className="chart-section"
+            style={{
+              transform: get3DTransform("rotate(0.3deg)", 0.3, "chart"),
+            }}
+            onMouseEnter={() => handleMouseEnter("chart")}
+            onMouseLeave={handleMouseLeave}
+          >
             <h3 className="chart-title">Token Distribution</h3>
             <div className="chart-container">
               <svg className="distribution-chart" viewBox="0 0 200 200">

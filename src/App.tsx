@@ -1,10 +1,12 @@
 import './styles/App.scss';
+import React, { Suspense } from 'react';
 import Header from './components/Header';
 import HeroSection from './components/HeroSection';
-import AboutSection from './components/AboutSection';
-import TokenomicsSection from './components/TokenomicsSection';
-import RoadmapSection from './components/RoadmapSection';
-import Footer from './components/Footer';
+
+// Lazy load non-critical sections for better performance
+const TokenomicsSection = React.lazy(() => import('./components/TokenomicsSection'));
+const RoadmapSection = React.lazy(() => import('./components/RoadmapSection'));
+const Footer = React.lazy(() => import('./components/Footer'));
 
 function App() {
   return (
@@ -12,24 +14,24 @@ function App() {
       <Header />
       
       <main className="main-content">
-        {/* Hero Section */}
+        {/* Hero Section - Critical above the fold */}
         <HeroSection coinName="PEPE" />
         
-        {/* About Section */}
-        <AboutSection />
-        
-        {/* Tokenomics Section */}
-        <TokenomicsSection />
-        
-        {/* Roadmap Section */}
-        <RoadmapSection />
-        
-        {/* Community Section
-        <CommunitySection /> */}
+        {/* Lazy loaded sections with loading fallbacks */}
+        <Suspense fallback={<div className="section-loading">Loading...</div>}>
+          
+          {/* Tokenomics Section */}
+          <TokenomicsSection />
+          
+          {/* Roadmap Section */}
+          <RoadmapSection />
+        </Suspense>
 
       </main>
       
-      <Footer />
+      <Suspense fallback={<div className="footer-loading">Loading...</div>}>
+        <Footer />
+      </Suspense>
     </div>
   );
 }

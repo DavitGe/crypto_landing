@@ -1,0 +1,21 @@
+{
+  "name": "PEPE - The Meme Revolution",
+  "short_name": "PEPE",
+  "description": "🚀 The most brutal meme coin that will moon your portfolio to Mars and beyond!",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FF00A0",
+  "theme_color": "#FF00A0",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/vite.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["finance", "entertainment"],
+  "lang": "en",
+  "dir": "ltr"
+} 

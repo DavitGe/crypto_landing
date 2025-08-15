@@ -92,35 +92,71 @@
   box-shadow: shadow("xl");
   position: relative;
   overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform-style: preserve-3d;
+  perspective: 1200px;
+  cursor: pointer;
+  will-change: transform;
+  animation: float 6s ease-in-out infinite;
+
+  // Stagger the floating animation
+  &:nth-child(1) {
+    animation-delay: 0s;
+  }
+
+  &:nth-child(2) {
+    animation-delay: 2s;
+  }
+
+  &:nth-child(3) {
+    animation-delay: 4s;
+  }
 
   // Brutalist: Each box slightly different
   &:nth-child(1) {
-    transform: rotate(-0.5deg);
     background: color("pastel-pink");
   }
 
   &:nth-child(2) {
-    transform: rotate(0.5deg);
     background: color("pastel-cyan");
   }
 
   &:nth-child(3) {
-    transform: rotate(-0.3deg);
     background: color("pastel-yellow");
   }
 
-  // Hover effects
+  // Enhanced 3D hover effects
   &:hover {
-    transform: translate(-4px, -4px) rotate(0deg);
-    box-shadow: shadow("2xl");
+    transform: translate(-12px, -12px) rotateX(8deg) rotateY(-8deg) scale(1.03) !important;
+    box-shadow: 16px 16px 0 color("black"), 12px 12px 0 color("neon-pink"),
+      8px 8px 0 color("neon-yellow"), 4px 4px 0 color("neon-cyan");
+    animation: glow 2s ease-in-out infinite;
 
     .brutalist-icon {
-      transform: scale(1.1) rotate(5deg);
+      transform: scale(1.15) rotate(8deg);
+      filter: drop-shadow(4px 4px 0 color("black"));
+      animation: icon-bounce 1s ease-in-out infinite;
     }
 
     .box-value {
       color: color("neon-pink");
-      transform: scale(1.05);
+      transform: scale(1.08) translateZ(20px) !important;
+      text-shadow: 2px 2px 0 color("black");
+    }
+
+    .box-title {
+      transform: translateZ(15px) !important;
+      text-shadow: 1px 1px 0 color("neon-yellow");
+    }
+
+    .icon-container {
+      transform: rotateY(20deg) rotateX(15deg) scale(1.15);
+      box-shadow: 8px 8px 0 color("black"), 4px 4px 0 color("neon-yellow");
+    }
+
+    .box-description {
+      transform: translateZ(10px) !important;
+      color: color("black");
     }
   }
 
@@ -136,6 +172,38 @@
     border: map-get($borders, "normal") solid color("black");
     transform: rotate(45deg);
     z-index: 1;
+    transition: all 0.3s ease;
+  }
+
+  &:hover::before {
+    transform: rotate(45deg) scale(1.2) translateZ(10px);
+    background: color("neon-pink");
+  }
+
+  // 3D shine effect
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      135deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.2) 30%,
+      rgba(255, 255, 255, 0.4) 50%,
+      rgba(255, 255, 255, 0.2) 70%,
+      transparent 100%
+    );
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    transform: translateZ(1px);
+  }
+
+  &:hover::after {
+    opacity: 1;
   }
 }
 
@@ -146,6 +214,7 @@
   margin-bottom: spacing("6");
   position: relative;
   z-index: 2;
+  transition: all 0.3s ease;
 }
 
 .icon-container {
@@ -157,12 +226,35 @@
   background: color("white");
   border: map-get($borders, "thick") solid color("black");
   box-shadow: shadow("base");
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform-style: preserve-3d;
+  position: relative;
+  will-change: transform;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: color("neon-cyan");
+    z-index: -1;
+    transform: translateZ(-2px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .info-box:hover &::after {
+    opacity: 0.4;
+  }
 }
 
 .brutalist-icon {
   width: 30px;
   height: 30px;
-  transition: all transition("normal");
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  will-change: transform;
 }
 
 .box-title {
@@ -172,6 +264,8 @@
   margin: 0;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  transition: all 0.3s ease;
+  transform: translateZ(0); // Ensure initial state is set
 }
 
 .box-value {
@@ -180,7 +274,9 @@
   color: color("black");
   margin-bottom: spacing("4");
   font-family: map-get($fonts, "heading");
-  transition: all transition("normal");
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  will-change: transform;
+  transform: translateZ(0); // Ensure initial state is set
 }
 
 .box-description {
@@ -188,6 +284,8 @@
   color: color("gray-800");
   line-height: map-get($line-heights, "relaxed");
   font-weight: map-get($font-weights, "medium");
+  transition: all 0.3s ease;
+  transform: translateZ(0); // Ensure initial state is set
 }
 
 // Chart Section
@@ -197,7 +295,32 @@
   background: color("pastel-purple");
   border: map-get($borders, "chunky") solid color("black");
   box-shadow: shadow("lg");
-  transform: rotate(0.3deg);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform-style: preserve-3d;
+  perspective: 1200px;
+  cursor: pointer;
+  will-change: transform;
+  animation: float 8s ease-in-out infinite;
+
+  &:hover {
+    transform: translate(-8px, -8px) rotateX(4deg) rotateY(-4deg) scale(1.02) !important;
+    box-shadow: 12px 12px 0 color("black"), 8px 8px 0 color("neon-pink"),
+      4px 4px 0 color("neon-yellow");
+
+    .chart-title {
+      transform: translateZ(20px) !important;
+      text-shadow: 2px 2px 0 color("neon-cyan");
+    }
+
+    .distribution-chart {
+      transform: scale(1.05) translateZ(15px) !important;
+      filter: drop-shadow(12px 12px 0 rgba(0, 0, 0, 1));
+    }
+
+    .chart-legend {
+      transform: translateZ(10px) !important;
+    }
+  }
 }
 
 .chart-title {
@@ -207,6 +330,8 @@
   margin: 0 0 spacing("8") 0;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  transition: all 0.3s ease;
+  transform: translateZ(0); // Ensure initial state is set
 }
 
 .chart-container {
@@ -214,6 +339,8 @@
   flex-direction: column;
   align-items: center;
   gap: spacing("8");
+  transition: all 0.3s ease;
+  transform: translateZ(0); // Ensure initial state is set
 
   @media (min-width: map-get($breakpoints, "md")) {
     flex-direction: row;
@@ -228,6 +355,8 @@
   width: 200px;
   height: 200px;
   filter: drop-shadow(8px 8px 0 rgba(0, 0, 0, 1));
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  will-change: transform;
 
   @media (min-width: map-get($breakpoints, "md")) {
     width: 250px;
@@ -237,6 +366,7 @@
 
 .chart-segments {
   transform: translate(100px, 100px);
+  transition: all 0.3s ease;
 
   @media (min-width: map-get($breakpoints, "md")) {
     transform: translate(125px, 125px);
@@ -244,11 +374,12 @@
 }
 
 .chart-segment {
-  transition: all transition("normal");
+  transition: all 0.3s ease;
+  will-change: transform;
 
   &:hover {
-    filter: brightness(1.2);
-    transform: scale(1.05);
+    filter: brightness(1.3);
+    transform: scale(1.08);
   }
 }
 
@@ -258,6 +389,8 @@
   flex-direction: column;
   gap: spacing("3");
   min-width: 200px;
+  transition: all 0.3s ease;
+  transform: translateZ(0); // Ensure initial state is set
 }
 
 .legend-item {
@@ -268,12 +401,15 @@
   background: color("white");
   border: map-get($borders, "normal") solid color("black");
   box-shadow: shadow("sm");
-  transition: all transition("fast");
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform-style: preserve-3d;
+  cursor: pointer;
 
   &:hover {
-    transform: translateX(5px);
+    transform: translateX(8px) translateZ(5px);
     box-shadow: shadow("base");
     background: color("pastel-cyan");
+    box-shadow: 4px 4px 0 color("black"), 2px 2px 0 color("neon-yellow");
   }
 }
 
@@ -282,6 +418,12 @@
   height: 20px;
   border: map-get($borders, "normal") solid color("black");
   box-shadow: shadow("sm");
+  transition: all 0.3s ease;
+
+  .legend-item:hover & {
+    transform: scale(1.2);
+    box-shadow: 2px 2px 0 color("black");
+  }
 }
 
 .legend-label {
@@ -290,6 +432,12 @@
   color: color("black");
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  transition: all 0.3s ease;
+
+  .legend-item:hover & {
+    color: color("black");
+    font-weight: map-get($font-weights, "bold");
+  }
 }
 
 // Animations
@@ -300,6 +448,39 @@
   }
   50% {
     transform: translateX(2px) rotate(2deg);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes glow {
+  0%,
+  100% {
+    box-shadow: 16px 16px 0 color("black"), 12px 12px 0 color("neon-pink"),
+      8px 8px 0 color("neon-yellow"), 4px 4px 0 color("neon-cyan");
+  }
+  50% {
+    box-shadow: 16px 16px 0 color("black"), 12px 12px 0 color("neon-pink"),
+      8px 8px 0 color("neon-yellow"), 4px 4px 0 color("neon-cyan"),
+      0 0 20px color("neon-pink");
+  }
+}
+
+@keyframes icon-bounce {
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.1) rotate(5deg);
   }
 }
 
@@ -333,13 +514,19 @@
     padding: spacing("6");
 
     &:hover {
-      transform: translate(-2px, -2px) !important;
+      transform: translate(-4px, -4px) rotateX(3deg) rotateY(-3deg) scale(1.01) !important;
+      box-shadow: 8px 8px 0 color("black"), 4px 4px 0 color("neon-pink") !important;
     }
   }
 
   .chart-section {
     transform: none;
     padding: spacing("8");
+
+    &:hover {
+      transform: translate(-2px, -2px) rotateX(1deg) rotateY(-1deg) scale(1.005) !important;
+      box-shadow: 4px 4px 0 color("black"), 2px 2px 0 color("neon-pink") !important;
+    }
   }
 
   .chart-container {

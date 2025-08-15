@@ -1,0 +1,166 @@
+@import "../styles/variables";
+
+.hero-mascot {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &.loaded {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .mascot-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+
+    .mascot-svg {
+      width: 100%;
+      height: 100%;
+
+      // Mascot animations
+      .mascot-body {
+        animation: float 3s ease-in-out infinite;
+      }
+
+      .mascot-eye {
+        animation: blink 4s ease-in-out infinite;
+      }
+
+      .mascot-pupil {
+        transition: cx 0.1s ease-out, cy 0.1s ease-out;
+      }
+
+      .mascot-mouth {
+        animation: smile 5s ease-in-out infinite;
+      }
+
+      .mascot-antenna {
+        animation: wiggle 2s ease-in-out infinite;
+      }
+
+      .antenna-tip {
+        animation: glow 2s ease-in-out infinite alternate;
+      }
+
+      .mascot-arm {
+        animation: wave 3s ease-in-out infinite;
+
+        &.left-arm {
+          animation-delay: 0.5s;
+        }
+
+        &.right-arm {
+          animation-delay: 1s;
+        }
+      }
+
+      .mascot-hand {
+        animation: grab 2s ease-in-out infinite;
+
+        &.left-hand {
+          animation-delay: 0.5s;
+        }
+
+        &.right-hand {
+          animation-delay: 1s;
+        }
+      }
+    }
+  }
+}
+
+// Mascot-specific animations
+@keyframes blink {
+  0%,
+  90%,
+  100% {
+    transform: scaleY(1);
+  }
+  95% {
+    transform: scaleY(0.1);
+  }
+}
+
+@keyframes look-around {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(2px, -1px);
+  }
+  50% {
+    transform: translate(-1px, 1px);
+  }
+  75% {
+    transform: translate(1px, -2px);
+  }
+}
+
+@keyframes smile {
+  0%,
+  100% {
+    d: path("M 70 130 Q 100 150 130 130");
+  }
+  50% {
+    d: path("M 70 130 Q 100 160 130 130");
+  }
+}
+
+@keyframes wiggle {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(5deg);
+  }
+  75% {
+    transform: rotate(-5deg);
+  }
+}
+
+@keyframes wave {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-10deg);
+  }
+  75% {
+    transform: rotate(10deg);
+  }
+}
+
+@keyframes grab {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+// Responsive adjustments
+@media (max-width: map-get($breakpoints, "md")) {
+  .hero-mascot {
+    .mascot-container {
+      width: 150px;
+      height: 150px;
+    }
+  }
+}
+
+@media (max-width: map-get($breakpoints, "sm")) {
+  .hero-mascot {
+    .mascot-container {
+      width: 120px;
+      height: 120px;
+    }
+  }
+}

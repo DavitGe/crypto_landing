@@ -1,9 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import styles from "./Header.module.scss";
 
 const Header: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+
+    // Cleanup on unmount
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isMobileMenuOpen]);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -16,9 +30,14 @@ const Header: React.FC = () => {
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({
+      // For sticky header, we need less offset since it doesn't overlap content
+      const header = document.querySelector("header");
+      const headerHeight = header ? header.offsetHeight : 80;
+      const elementPosition = element.offsetTop - headerHeight - 10; // Reduced buffer for sticky header
+
+      window.scrollTo({
+        top: elementPosition,
         behavior: "smooth",
-        block: "start",
       });
     }
     closeMobileMenu(); // Close mobile menu after navigation
@@ -26,7 +45,6 @@ const Header: React.FC = () => {
 
   const navLinks = [
     { href: "#home", label: "Home" },
-    { href: "#about", label: "About" },
     { href: "#tokenomics", label: "Tokenomics" },
     { href: "#roadmap", label: "Roadmap" },
     // { href: "#community", label: "Community" },

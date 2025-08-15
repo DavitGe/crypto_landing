@@ -88,16 +88,134 @@
   margin-bottom: spacing("12");
 }
 
+// Add floating animations
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes glow {
+  0%,
+  100% {
+    box-shadow: 16px 16px 0 color("black"), 12px 12px 0 color("neon-pink"),
+      8px 8px 0 color("neon-yellow"), 4px 4px 0 color("neon-cyan");
+  }
+  50% {
+    box-shadow: 16px 16px 0 color("black"), 12px 12px 0 color("neon-pink"),
+      8px 8px 0 color("neon-yellow"), 4px 4px 0 color("neon-cyan"),
+      0 0 20px color("neon-pink");
+  }
+}
+
+@keyframes icon-bounce {
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.1) rotate(5deg);
+  }
+}
+
 .about-card {
   background: color("white");
   border: 4px solid color("black");
   padding: spacing("6");
   box-shadow: shadow("lg");
-  transition: all transition("normal");
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform-style: preserve-3d;
+  perspective: 1200px;
+  cursor: pointer;
+  position: relative;
+  will-change: transform;
+  animation: float 7s ease-in-out infinite;
+
+  // Stagger the floating animation
+  &:nth-child(1) {
+    animation-delay: 0s;
+  }
+
+  &:nth-child(2) {
+    animation-delay: 2.3s;
+  }
+
+  &:nth-child(3) {
+    animation-delay: 4.6s;
+  }
 
   &:hover {
-    transform: translate(-6px, -6px);
-    box-shadow: shadow("2xl");
+    transform: translate(-12px, -12px) rotateX(8deg) rotateY(-8deg) scale(1.03) !important;
+    box-shadow: 16px 16px 0 color("black"), 12px 12px 0 color("neon-pink"),
+      8px 8px 0 color("neon-yellow"), 4px 4px 0 color("neon-cyan");
+    animation: glow 2s ease-in-out infinite;
+
+    .card-title {
+      transform: translateZ(20px) !important;
+      text-shadow: 2px 2px 0 color("neon-cyan");
+    }
+
+    .card-text {
+      transform: translateZ(15px) !important;
+    }
+
+    .highlight {
+      color: color("neon-pink");
+      text-shadow: 1px 1px 0 color("black");
+    }
+
+    .card-icon {
+      animation: icon-bounce 1s ease-in-out infinite;
+    }
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      135deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.2) 30%,
+      rgba(255, 255, 255, 0.4) 50%,
+      rgba(255, 255, 255, 0.2) 70%,
+      transparent 100%
+    );
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    transform: translateZ(1px);
+  }
+
+  &:hover::before {
+    opacity: 1;
+  }
+
+  // Brutalist: Add geometric accent
+  &::after {
+    content: "";
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 30px;
+    height: 30px;
+    background: color("neon-yellow");
+    border: 2px solid color("black");
+    transform: rotate(45deg);
+    z-index: 1;
+    transition: all 0.3s ease;
+  }
+
+  &:hover::after {
+    transform: rotate(45deg) scale(1.3) translateZ(10px);
+    background: color("neon-pink");
   }
 }
 
@@ -106,6 +224,7 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: spacing("4");
+  transition: all 0.3s ease;
 }
 
 .card-title {
@@ -115,6 +234,9 @@
   color: color("black");
   text-transform: uppercase;
   margin: 0;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  will-change: transform;
+  transform: translateZ(0); // Ensure initial state is set
 }
 
 .card-icon {
@@ -127,6 +249,33 @@
   align-items: center;
   justify-content: center;
   box-shadow: shadow("base");
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform-style: preserve-3d;
+  position: relative;
+  will-change: transform;
+
+  .about-card:hover & {
+    transform: rotateY(20deg) rotateX(15deg) scale(1.15);
+    box-shadow: 8px 8px 0 color("black"), 4px 4px 0 color("neon-yellow");
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: color("neon-cyan");
+    z-index: -1;
+    transform: translateZ(-2px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .about-card:hover &::after {
+    opacity: 0.4;
+  }
 }
 
 .card-text {
@@ -135,11 +284,16 @@
   line-height: map-get($line-heights, "relaxed");
   color: color("black");
   margin: 0;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  will-change: transform;
+  transform: translateZ(0); // Ensure initial state is set
 }
 
 .highlight {
   color: color("neon-cyan");
   font-weight: map-get($font-weights, "bold");
+  transition: all 0.3s ease;
+  transform: translateZ(0); // Ensure initial state is set
 }
 
 .story-section {
@@ -148,6 +302,52 @@
   padding: spacing("8");
   box-shadow: shadow("xl");
   text-align: center;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform-style: preserve-3d;
+  perspective: 1200px;
+  cursor: pointer;
+  will-change: transform;
+  animation: float 9s ease-in-out infinite;
+
+  &:hover {
+    transform: translate(-8px, -8px) rotateX(4deg) rotateY(-4deg) scale(1.02) !important;
+    box-shadow: 12px 12px 0 color("black"), 8px 8px 0 color("neon-pink"),
+      4px 4px 0 color("neon-yellow");
+
+    .story-title {
+      transform: translateZ(20px) !important;
+      text-shadow: 2px 2px 0 color("neon-cyan");
+    }
+
+    .story-content {
+      transform: translateZ(10px) !important;
+    }
+
+    .highlight {
+      color: color("neon-pink");
+      text-shadow: 1px 1px 0 color("black");
+    }
+  }
+
+  // Brutalist: Add geometric accent
+  &::before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    width: 40px;
+    height: 40px;
+    background: color("neon-yellow");
+    border: 3px solid color("black");
+    transform: rotate(45deg);
+    z-index: 1;
+    transition: all 0.3s ease;
+  }
+
+  &:hover::before {
+    transform: rotate(45deg) scale(1.2) translateZ(10px);
+    background: color("neon-pink");
+  }
 }
 
 .story-title {
@@ -158,11 +358,17 @@
   text-transform: uppercase;
   margin: 0 0 spacing("6") 0;
   letter-spacing: 0.1em;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  will-change: transform;
+  transform: translateZ(0); // Ensure initial state is set
 }
 
 .story-content {
   max-width: 800px;
   margin: 0 auto;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  will-change: transform;
+  transform: translateZ(0); // Ensure initial state is set
 }
 
 .story-content p {
@@ -171,6 +377,7 @@
   line-height: map-get($line-heights, "relaxed");
   color: color("black");
   margin: 0 0 spacing("4") 0;
+  transition: all 0.3s ease;
 
   &:last-child {
     margin-bottom: 0;
@@ -194,6 +401,11 @@
 
   .about-card {
     padding: spacing("4");
+
+    &:hover {
+      transform: translate(-4px, -4px) rotateX(3deg) rotateY(-3deg) scale(1.01);
+      box-shadow: 8px 8px 0 color("black"), 4px 4px 0 color("neon-pink");
+    }
   }
 
   .card-title {
@@ -212,5 +424,12 @@
 
   .story-content p {
     font-size: font-size("lg");
+  }
+
+  .story-section {
+    &:hover {
+      transform: translate(-2px, -2px) rotateX(1deg) rotateY(-1deg) scale(1.005);
+      box-shadow: 4px 4px 0 color("black"), 2px 2px 0 color("neon-pink");
+    }
   }
 }
