@@ -81,10 +81,6 @@ const RoadmapSection: React.FC = () => {
       opacity: 1,
       y: 0,
       rotateX: 0,
-      transition: {
-        duration: 0.8,
-        ease: [0.175, 0.885, 0.32, 1.275],
-      },
     },
   };
 
@@ -98,10 +94,6 @@ const RoadmapSection: React.FC = () => {
       opacity: 1,
       x: 0,
       rotate: 0,
-      transition: {
-        duration: 0.6,
-        ease: [0.175, 0.885, 0.32, 1.275],
-      },
     },
   };
 

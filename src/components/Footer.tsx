@@ -34,10 +34,6 @@ const Footer: React.FC = () => {
     hover: {
       scale: 1.2,
       rotate: [0, -10, 10, 0],
-      transition: {
-        duration: 0.3,
-        ease: [0.175, 0.885, 0.32, 1.275],
-      },
     },
   };
 
@@ -46,10 +42,6 @@ const Footer: React.FC = () => {
     visible: {
       opacity: 1,
       y: 0,
-      transition: {
-        duration: 0.6,
-        ease: [0.175, 0.885, 0.32, 1.275],
-      },
     },
   };
 
@@ -100,7 +92,7 @@ const Footer: React.FC = () => {
                   transition={{
                     duration: 0.4,
                     delay: index * 0.1,
-                    ease: [0.175, 0.885, 0.32, 1.275],
+                    ease: "easeOut",
                   }}
                 >
                   <button

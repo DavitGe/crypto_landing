@@ -4,7 +4,6 @@ import HeroSection from './components/HeroSection';
 import AboutSection from './components/AboutSection';
 import TokenomicsSection from './components/TokenomicsSection';
 import RoadmapSection from './components/RoadmapSection';
-import CommunitySection from './components/CommunitySection';
 import Footer from './components/Footer';
 
 function App() {
